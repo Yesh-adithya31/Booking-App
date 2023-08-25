@@ -7,9 +7,9 @@ import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import swaggerjsdoc from "swagger-jsdoc";
-import swaggerui from "swagger-ui-express";
-import path from "path";
+import swaggerjsdoc from "swagger-jsdoc"
+import swaggerui from "swagger-ui-express"
+import path from 'path'
 
 const app = express();
 dotenv.config();
@@ -36,45 +36,34 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title:
-        "API documentation for Booking Application MERNSTACK using SWAGGER",
+      title: "API documentation for Booking Application MERNSTACK using SWAGGER",
       version: "0.1.0",
-      descritpion:
-        "This is simple Booking API documentation made with Express and documented with swagger",
+      descritpion: "This is simple Booking API documentation made with Express and documented with swagger",
       contact: {
         name: "Yesh Adithya",
         url: "http://yeshadithya.hypergeek.lk/",
-        email: "yesh.adithya31@gmail.com",
-      },
+        email: "yesh.adithya31@gmail.com"
+      }
     },
     servers: [
       {
-        url: "http://localhost:8800",
+        url: "http://localhost:8800"
       },
     ],
   },
   apis: ["./routes/*.js"],
-};
-
-const __dirname = path.resolve()
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/client/build')))
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running....')
-  })
 }
 
-const spacs = swaggerjsdoc(options);
-app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
+const spacs = swaggerjsdoc(options)
+app.use(
+  "/api-docs",
+  swaggerui.serve,
+  swaggerui.setup(spacs)
+)
 
-// app.get("/", (req, res) => {
-//   res.send("This is Nodejs API");
-// });
+app.get("/", (req, res)=>{
+  res.send("This is Nodejs API")
+})
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", usersRoute);
