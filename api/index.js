@@ -56,12 +56,25 @@ const options = {
   apis: ["./routes/*.js"],
 };
 
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/build')))
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
+
 const spacs = swaggerjsdoc(options);
 app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
 
-app.get("/", (req, res) => {
-  res.send("This is Nodejs API");
-});
+// app.get("/", (req, res) => {
+//   res.send("This is Nodejs API");
+// });
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", usersRoute);
